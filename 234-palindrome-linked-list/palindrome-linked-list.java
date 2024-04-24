@@ -9,44 +9,43 @@
  * }
  */
 class Solution {
-    public ListNode reverse(ListNode head){
+
+    public static ListNode reverseLinkedList(ListNode head){
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode temp = head;
         ListNode prev = null;
-        ListNode curr = head;
-        while(curr != null){
-            ListNode next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
+        while(temp != null){
+            ListNode front = temp.next;
+            temp.next = prev;
+            prev = temp;
+            temp = front;
         }
         return prev;
-    }
-
-    public ListNode findMiddle(ListNode head){
-        ListNode hare = head;
-        ListNode turtle = head;
-        while(hare.next != null && hare.next.next != null){
-            hare = hare.next.next;
-            turtle = turtle.next;
-        }
-        return turtle;
-    }
-
+    }    
     public boolean isPalindrome(ListNode head) {
         if(head == null || head.next == null){
             return true;
         }
-
-        ListNode middle = findMiddle(head);
-        ListNode secondHalfStart = reverse(middle.next);
-
-        ListNode firstHalfStart = head;
-        while(secondHalfStart != null){
-            if(firstHalfStart.val != secondHalfStart.val){
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode newHead = reverseLinkedList(slow.next);
+        ListNode first = head;
+        ListNode second = newHead;
+        while(second != null){
+            if(first.val != second.val){
+                reverseLinkedList(newHead);
                 return false;
             }
-            firstHalfStart = firstHalfStart.next;
-            secondHalfStart = secondHalfStart.next;
+            first = first.next;
+            second = second.next;
         }
+        reverseLinkedList(newHead);
         return true;
     }
 }
