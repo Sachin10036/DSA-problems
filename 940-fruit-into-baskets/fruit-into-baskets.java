@@ -7,7 +7,8 @@ class Solution {
         while (r < fruits.length) {
             map.put(fruits[r], map.getOrDefault(fruits[r], 0) + 1);
             if (map.size() > 2) {
-                reduceFrequency(map, fruits[l]);
+                int val = map.get(fruits[l]);
+                map.put(fruits[l], val-1);
                 if (map.getOrDefault(fruits[l], 0) == 0) {
                     map.remove(fruits[l]);
                 }
@@ -19,7 +20,4 @@ class Solution {
         return maxLen;
     }
 
-    public static void reduceFrequency(HashMap<Integer, Integer> map, int key) {
-        map.computeIfPresent(key, (k, v) -> v > 1 ? v - 1 : null);
-    }
 }
