@@ -1,22 +1,19 @@
 class Solution {
     public int numberOfSubarrays(int[] nums, int k) {
-        for (int i = 0; i < nums.length; i++) {
-            nums[i] %= 2;
-        }
-        
-        int[] prefixCount = new int[nums.length + 1];
-        prefixCount[0] = 1;
-        int s = 0;
-        int ans = 0;
-        
-        for (int num : nums) {
-            s += num;
-            if (s >= k) {
-                ans += prefixCount[s - k];
+        return lessOrEqualToK(nums, k) - lessOrEqualToK(nums, k-1);
+    }
+    public int lessOrEqualToK(int nums[], int k){
+        int l=0, r=0, ans=0, sum=0;
+        int n = nums.length;
+        while(r < n){
+            sum += nums[r] % 2;
+            while(sum > k){
+                sum -= nums[l] % 2;
+                l++;
             }
-            prefixCount[s]++;
+            ans += (r-l+1);
+            r++;
         }
-        
         return ans;
     }
 }
